@@ -14,7 +14,6 @@ async function getCoordinates(city) {
         }
     } catch (error) {
         console.error('Error fetching coordinates:', error);
-        document.getElementById('weather-result').innerText = 'Error: Unable to fetch city coordinates.';
         return null;
     }
 }
@@ -30,7 +29,6 @@ async function getWeatherData(lat, lon) {
         return forecastData;
     } catch (error) {
         console.error('Error fetching weather data:', error);
-        document.getElementById('weather-result').innerText = 'Error: Unable to fetch weather data.';
         return null;
     }
 }
@@ -38,7 +36,7 @@ async function getWeatherData(lat, lon) {
 async function getWeather() {
     const city = document.getElementById('city-input').value;
     if (!city) {
-        document.getElementById('weather-result').innerText = 'Please enter a city name.';
+        alert('Please enter a city name.');
         return;
     }
 
@@ -51,25 +49,32 @@ async function getWeather() {
 
 function displayWeather(forecastData) {
     if (forecastData) {
-        const weatherCondition = forecastData.properties.periods[0].shortForecast.toLowerCase();
-        const weatherCard = document.querySelector('.weather-card');
-        weatherCard.innerHTML = `
-            <h2>${forecastData.properties.periods[0].name}</h2>
-            <i class="fas fa-sun"></i> 
-            <div class="temperature">${forecastData.properties.periods[0].temperature}°F</div>
-            <div class="details">${forecastData.properties.periods[0].shortForecast}</div>
-        `;
+        const periods = forecastData.properties.periods.slice(0, 5); // Get the first 5 periods (5-day forecast)
+        const weatherCardsContainer = document.querySelector('.weather-cards-container');
+        weatherCardsContainer.innerHTML = ''; // Clear any previous content
 
-        if (weatherCondition.includes('sunny')) {
-            document.body.className = 'sunny';
-            document.querySelector('.fas').classList.replace('fa-sun', 'fa-sun');
-        } else if (weatherCondition.includes('cloudy')) {
-            document.body.className = 'cloudy';
-            document.querySelector('.fas').classList.replace('fa-sun', 'fa-cloud');
-        } else if (weatherCondition.includes('rain')) {
-            document.body.className = 'rainy';
-            document.querySelector('.fas').classList.replace('fa-sun', 'fa-cloud-rain');
-        }
+        periods.forEach(period => {
+            const weatherCard = document.createElement('div');
+            weatherCard.classList.add('weather-card');
+
+            const weatherCondition = period.shortForecast.toLowerCase();
+            let weatherIcon = 'fas fa-sun'; // Default to sunny icon
+
+            if (weatherCondition.includes('cloudy')) {
+                weatherIcon = 'fas fa-cloud';
+            } else if (weatherCondition.includes('rain')) {
+                weatherIcon = 'fas fa-cloud-rain';
+            }
+
+            weatherCard.innerHTML = `
+                <h2>${period.name}</h2>
+                <i class="${weatherIcon}"></i>
+                <div class="temperature">${period.temperature}°F</div>
+                <div class="details">${period.shortForecast}</div>
+            `;
+
+            weatherCardsContainer.appendChild(weatherCard);
+        });
     } else {
         console.log('No weather data available');
     }
