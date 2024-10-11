@@ -1,66 +1,18 @@
-/* Include FontAwesome for weather icons */
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-
+/* Global Styles */
 body {
-    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    color: #333;
-    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://media.istockphoto.com/id/1007768414/photo/blue-sky-with-bright-sun-and-clouds.jpg?s=612x612&w=0&k=20&c=MGd2-v42lNF7Ie6TtsYoKnohdCfOPFSPQt5XOz4uOy4=') no-repeat center center fixed;
-    background-size: cover;
+    font-family: 'Roboto', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     flex-direction: column;
     text-align: center;
+    transition: background-color 1s ease-in-out; /* Smooth transition for changing weather conditions */
 }
 
-header {
-    text-align: center;
-    padding: 50px 0;
-    color: white;
-    font-size: 3em;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
-    text-align: center;
-}
-
-input[type="text"] {
-    width: 100%;
-    max-width: 400px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    text-align: center;
-}
-
-button {
-    padding: 15px 30px;
-    background-color: #1abc9c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #16a085;
-}
-
+/* Default Weather Card */
 .weather-card {
     background-color: rgba(255, 255, 255, 0.8);
     padding: 30px;
@@ -77,32 +29,66 @@ button:hover {
     margin-bottom: 10px;
 }
 
-.weather-card .temperature {
+.temperature {
     font-size: 3em;
     color: #e74c3c;
 }
 
-.weather-card .details {
+.details {
     font-size: 1.2em;
     color: #7f8c8d;
 }
 
-.weather-card i {
-    font-size: 4em;
-    color: #3498db;
-    margin-bottom: 10px;
+/* Animation for Sunny */
+.sunny {
+    background-color: #f39c12;
+    animation: sunny-animation 10s infinite linear;
 }
 
-@media (max-width: 768px) {
-    body {
-        font-size: 14px;
+@keyframes sunny-animation {
+    0% {
+        background-color: #f39c12;
     }
-
-    header {
-        font-size: 2.5em;
+    50% {
+        background-color: #f1c40f;
     }
+    100% {
+        background-color: #f39c12;
+    }
+}
 
-    .weather-card {
-        padding: 20px;
+/* Animation for Cloudy */
+.cloudy {
+    background-color: #bdc3c7;
+    animation: cloudy-animation 10s infinite linear;
+}
+
+@keyframes cloudy-animation {
+    0% {
+        background-color: #95a5a6;
+    }
+    50% {
+        background-color: #7f8c8d;
+    }
+    100% {
+        background-color: #95a5a6;
+    }
+}
+
+/* Animation for Rainy */
+.rainy {
+    background-color: #3498db;
+    animation: rainy-animation 10s infinite linear;
+}
+
+@keyframes rainy-animation {
+    0% {
+        background-color: #3498db;
+    }
+    50% {
+        background-color: #2980b9;
+    }
+    100% {
+        background-color: #3498db;
     }
 }

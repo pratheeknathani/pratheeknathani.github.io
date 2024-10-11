@@ -1,4 +1,3 @@
-// Function to get latitude and longitude for a city using Nominatim API
 async function getCoordinates(city) {
     const geocodeUrl = `https://nominatim.openstreetmap.org/search?city=${city}&format=json`;
     const headers = { 'User-Agent': 'MyWeatherApp (your_email@example.com)' };
@@ -20,15 +19,12 @@ async function getCoordinates(city) {
     }
 }
 
-// Function to get weather data from Weather.gov API
 async function getWeatherData(lat, lon) {
     const pointUrl = `https://api.weather.gov/points/${lat},${lon}`;
-
     try {
         const response = await fetch(pointUrl);
         const data = await response.json();
         const forecastUrl = data.properties.forecast;
-
         const forecastResponse = await fetch(forecastUrl);
         const forecastData = await forecastResponse.json();
         return forecastData;
@@ -39,18 +35,6 @@ async function getWeatherData(lat, lon) {
     }
 }
 
-// Function to display the weather forecast
-function displayWeather(forecastData) {
-    if (forecastData) {
-        let output = '<h3>Weather Forecast:</h3>';
-        forecastData.properties.periods.forEach(period => {
-            output += `<p>${period.name}: ${period.temperature}°F, ${period.shortForecast}</p>`;
-        });
-        document.getElementById('weather-result').innerHTML = output;
-    }
-}
-
-// Main function to get weather by city
 async function getWeather() {
     const city = document.getElementById('city-input').value;
     if (!city) {
@@ -62,5 +46,31 @@ async function getWeather() {
     if (coordinates) {
         const weatherData = await getWeatherData(coordinates.lat, coordinates.lon);
         displayWeather(weatherData);
+    }
+}
+
+function displayWeather(forecastData) {
+    if (forecastData) {
+        const weatherCondition = forecastData.properties.periods[0].shortForecast.toLowerCase();
+        const weatherCard = document.querySelector('.weather-card');
+        weatherCard.innerHTML = `
+            <h2>${forecastData.properties.periods[0].name}</h2>
+            <i class="fas fa-sun"></i> 
+            <div class="temperature">${forecastData.properties.periods[0].temperature}°F</div>
+            <div class="details">${forecastData.properties.periods[0].shortForecast}</div>
+        `;
+
+        if (weatherCondition.includes('sunny')) {
+            document.body.className = 'sunny';
+            document.querySelector('.fas').classList.replace('fa-sun', 'fa-sun');
+        } else if (weatherCondition.includes('cloudy')) {
+            document.body.className = 'cloudy';
+            document.querySelector('.fas').classList.replace('fa-sun', 'fa-cloud');
+        } else if (weatherCondition.includes('rain')) {
+            document.body.className = 'rainy';
+            document.querySelector('.fas').classList.replace('fa-sun', 'fa-cloud-rain');
+        }
+    } else {
+        console.log('No weather data available');
     }
 }
