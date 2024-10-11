@@ -27,17 +27,7 @@
     <section id="projects" class="section">
         <h2>My Projects</h2>
         <div class="project">
-            <h3>Project 1: Simple Calculator</h3>
-            <p>A web-based calculator built with HTML, CSS, and JavaScript.</p>
-            <a href="https://github.com/yourusername/calculator" target="_blank">View Code</a>
-        </div>
-        <div class="project">
-            <h3>Project 2: To-Do List App</h3>
-            <p>A to-do list application with CRUD functionality using JavaScript and local storage.</p>
-            <a href="https://github.com/yourusername/todo-list" target="_blank">View Code</a>
-        </div>
-        <div class="project">
-            <h3>Project 3: Weather App</h3>
+            <h3>Project 1: Weather App</h3>
             <p>A weather app using an API to fetch real-time data.</p>
             <a href="https://github.com/yourusername/weather-app" target="_blank">View Code</a>
         </div>
