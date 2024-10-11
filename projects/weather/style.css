@@ -9,7 +9,8 @@ body {
     min-height: 100vh;
     flex-direction: column;
     text-align: center;
-    transition: background-color 1s ease-in-out;
+    transition: background-color 1s ease-in-out, background-image 1s ease-in-out;
+    background: linear-gradient(to bottom, #87CEFA, #f0f0f0); /* Default soft blue sky gradient */
 }
 
 header {
@@ -97,7 +98,11 @@ button:hover {
     margin-bottom: 10px;
 }
 
-/* Responsive Styling */
+/* Rainy Background */
+.rainy-background {
+    background: linear-gradient(to bottom, #1c92d2, #f2fcfe); /* Soft rainy gradient */
+}
+
 @media (max-width: 768px) {
     body {
         font-size: 14px;

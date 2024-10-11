@@ -53,6 +53,8 @@ function displayWeather(forecastData) {
         const weatherCardsContainer = document.querySelector('.weather-cards-container');
         weatherCardsContainer.innerHTML = ''; // Clear any previous content
 
+        let isRainy = false; // Track if any day includes rain
+
         periods.forEach(period => {
             const weatherCard = document.createElement('div');
             weatherCard.classList.add('weather-card');
@@ -64,6 +66,7 @@ function displayWeather(forecastData) {
                 weatherIcon = 'fas fa-cloud';
             } else if (weatherCondition.includes('rain')) {
                 weatherIcon = 'fas fa-cloud-rain';
+                isRainy = true; // Set the flag if rain is detected
             }
 
             weatherCard.innerHTML = `
@@ -75,6 +78,13 @@ function displayWeather(forecastData) {
 
             weatherCardsContainer.appendChild(weatherCard);
         });
+
+        // If rain is in the forecast, change the background
+        if (isRainy) {
+            document.body.classList.add('rainy-background');
+        } else {
+            document.body.classList.remove('rainy-background');
+        }
     } else {
         console.log('No weather data available');
     }
