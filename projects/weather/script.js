@@ -60,6 +60,8 @@ function displayWeather(forecastData) {
             weatherCard.classList.add('weather-card');
 
             const weatherCondition = period.shortForecast.toLowerCase();
+            console.log(`Detected weather condition: ${weatherCondition}`); // Debugging log
+
             let weatherIcon = 'fas fa-sun'; // Default to sunny icon
 
             if (weatherCondition.includes('cloudy')) {
@@ -79,10 +81,12 @@ function displayWeather(forecastData) {
             weatherCardsContainer.appendChild(weatherCard);
         });
 
-        // If rain is in the forecast, change the background
+        // Debugging logs to check if background class is applied
         if (isRainy) {
+            console.log("Rain detected, applying rainy background");
             document.body.classList.add('rainy-background');
         } else {
+            console.log("No rain detected, applying default background");
             document.body.classList.remove('rainy-background');
         }
     } else {
