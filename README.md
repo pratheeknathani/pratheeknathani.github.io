@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Programming Projects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,12 +20,12 @@
         </nav>
     </header>
 
-    <section id="about">
+    <section id="about" class="section">
         <h2>About Me</h2>
         <p>Hello! I'm a programming enthusiast who loves working on various coding projects. Here are some of my favorite projects that showcase my skills in different languages and frameworks.</p>
     </section>
 
-    <section id="projects">
+    <section id="projects" class="section">
         <h2>My Projects</h2>
         <div class="project">
             <h3>Project 1: Simple Calculator</h3>
@@ -43,13 +44,13 @@
         </div>
     </section>
 
-    <section id="contact">
+    <section id="contact" class="section">
         <h2>Contact Me</h2>
         <p>If you'd like to collaborate or ask about my projects, feel free to reach out!</p>
         <form>
-            <input type="text" name="name" placeholder="Your Name">
-            <input type="email" name="email" placeholder="Your Email">
-            <textarea name="message" placeholder="Your Message"></textarea>
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <textarea name="message" placeholder="Your Message" required></textarea>
             <button type="submit">Send</button>
         </form>
     </section>
