@@ -29,7 +29,7 @@
         <div class="project">
             <h3>Project 1: Weather App</h3>
             <p>A weather app using an API to fetch real-time data.</p>
-            <a href="https://github.com/yourusername/weather-app" target="_blank">View Code</a>
+            <a href="./projects/weather" target="_blank">View Code</a>
         </div>
     </section>
 
