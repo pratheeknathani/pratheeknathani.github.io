@@ -10,61 +10,67 @@ body {
     flex-direction: column;
     text-align: center;
     transition: background-color 1s ease-in-out;
-    background: #f7f7f7; /* Default background */
+    background: #f7f7f7;
 }
 
-/* Dynamic Background for Different Weather Conditions */
-.sunny-background {
-    background: linear-gradient(to bottom, #f1c40f, #f39c12);
-}
-
-.cloudy-background {
-    background: linear-gradient(to bottom, #bdc3c7, #7f8c8d);
-}
-
-.rainy-background {
-    background: linear-gradient(to bottom, #3498db, #2980b9);
-}
-
-/* Header */
-header {
-    padding: 50px 0;
-    color: white;
-    font-size: 3em;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    width: 100%;
-}
-
-/* Error Message */
-.error-message {
-    color: red;
-    font-size: 1.2em;
-    margin-top: 10px;
-}
-
-/* Loading Spinner */
-.loading {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Weather Cards */
-.weather-cards-container {
+/* Button Styles */
+.button-container {
     display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+.btn {
+    background-color: #3498db;
+    color: white;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: bold;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Autocomplete Suggestions Dropdown */
+.suggestions-dropdown {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
     width: 100%;
-    max-width: 1200px; /* Adjusted to fit all 5 squircles on one line */
+    max-width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    position: absolute;
+    z-index: 999;
+    margin-top: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.suggestions-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-dropdown li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Weather Cards Container */
+.weather-cards-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns to fit all weather cards in one line */
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
     margin-top: 20px;
 }
 
@@ -74,7 +80,7 @@ header {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: 15px;
     text-align: center;
-    width: 18%; /* Adjusted width for proper layout */
+    min-width: 150px;
 }
 
 .weather-card h2 {
@@ -82,7 +88,7 @@ header {
     margin-bottom: 10px;
 }
 
-.temperature-high, .temperature-low {
+.temperature-average {
     font-size: 1.2em;
     color: #e74c3c;
     margin-bottom: 5px;
@@ -90,12 +96,17 @@ header {
 
 .weather-card i {
     font-size: 3em;
-    color: #f39c12; /* Changed sun color to gold */
+    color: #f39c12; /* Sun color */
     margin-bottom: 10px;
 }
 
 @media (max-width: 768px) {
-    .weather-card {
-        width: 45%; /* Adjust for mobile responsiveness */
+    .weather-cards-container {
+        grid-template-columns: repeat(2, 1fr); /* Adjust for smaller screens */
+    }
+
+    .btn {
+        font-size: 1em;
+        padding: 10px 15px;
     }
 }
