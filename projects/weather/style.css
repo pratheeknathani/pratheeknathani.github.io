@@ -99,3 +99,29 @@ header {
         width: 45%; /* Adjust for mobile responsiveness */
     }
 }
+/* Autocomplete Suggestions Dropdown */
+.suggestions-dropdown {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: white;
+    position: absolute;
+    z-index: 999;
+    margin-top: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.suggestions-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-dropdown li:hover {
+    background-color: #f0f0f0;
+}

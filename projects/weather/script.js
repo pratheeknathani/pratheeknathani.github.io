@@ -132,3 +132,43 @@ async function getCurrentLocation() {
         showError('Geolocation is not supported by your browser.');
     }
 }
+async function fetchCitySuggestions() {
+    const query = document.getElementById('city-input').value;
+
+    // If no input, hide suggestions
+    if (!query) {
+        document.getElementById('city-suggestions').innerHTML = '';
+        return;
+    }
+
+    // Fetch city suggestions from the Nominatim API
+    const url = `https://nominatim.openstreetmap.org/search?city=${query}&format=json&limit=5`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        displayCitySuggestions(data);
+    } catch (error) {
+        console.error('Error fetching city suggestions:', error);
+    }
+}
+
+// Display the city suggestions in the dropdown
+function displayCitySuggestions(cities) {
+    const suggestionsDropdown = document.getElementById('city-suggestions');
+    suggestionsDropdown.innerHTML = ''; // Clear previous suggestions
+
+    if (cities.length === 0) {
+        suggestionsDropdown.innerHTML = '<li>No city found</li>';
+        return;
+    }
+
+    cities.forEach(city => {
+        const suggestionItem = document.createElement('li');
+        suggestionItem.textContent = `${city.display_name}`;
+        suggestionItem.onclick = () => {
+            document.getElementById('city-input').value = city.display_name;
+            suggestionsDropdown.innerHTML = ''; // Clear suggestions after selection
+        };
+        suggestionsDropdown.appendChild(suggestionItem);
+    });
+}

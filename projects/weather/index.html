@@ -12,12 +12,13 @@
         <h1>My Local Weather</h1>
     </header>
     <div class="container">
-        <input type="text" id="city-input" placeholder="Enter city name">
+        <input type="text" id="city-input" placeholder="Enter city name" oninput="fetchCitySuggestions()">
+        <ul id="city-suggestions" class="suggestions-dropdown"></ul> <!-- Dropdown for city suggestions -->
         <button onclick="getWeather()">Get Weather</button>
         <button onclick="getCurrentLocation()">Use My Location</button>
         <div class="error-message" id="error-message"></div>
         <div class="loading" id="loading-spinner" style="display:none;"></div> <!-- Spinner for loading -->
-        <div class="weather-cards-container"></div> <!-- Updated container for squircles -->
+        <div class="weather-cards-container"></div>
     </div>
     <script src="script.js"></script>
 </body>
