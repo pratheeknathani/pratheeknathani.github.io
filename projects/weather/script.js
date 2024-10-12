@@ -147,32 +147,53 @@ function displayWeather(forecastData) {
         const weatherCardsContainer = document.querySelector('.weather-cards-container');
         weatherCardsContainer.innerHTML = ''; // Clear any previous content
 
-        let isRainy = false;
-        let isCloudy = false;
-        let isSunny = false;
+        let isRainyToday = false;
+        let isCloudyToday = false;
+        let isSunnyToday = false;
 
+        // Set the background and icons based on today's weather
+        const todayWeatherCondition = periods[0].shortForecast.toLowerCase(); // Get today's weather
+        let todayIconClass = ''; // Default no class
+
+        // Check for rain, chance of rain, and thunderstorms for today's condition only
+        if (todayWeatherCondition.includes('cloudy')) {
+            todayIconClass = 'cloudy-background'; // Cloudy background
+            isCloudyToday = true;
+        } else if (todayWeatherCondition.includes('rain') || todayWeatherCondition.includes('chance of rain') || todayWeatherCondition.includes('thunderstorm')) {
+            todayIconClass = 'rainy-background'; // Rainy background
+            isRainyToday = true;
+            addRainAnimation(); // Add rain animation only if today has rain
+        } else {
+            todayIconClass = 'sunny-background'; // Sunny background
+            isSunnyToday = true;
+            removeRainAnimation(); // Remove rain animation if it's sunny or cloudy
+        }
+
+        // Apply today's background to the body
+        document.body.className = todayIconClass;
+
+        // Now populate weather for all periods (including today)
         periods.forEach(period => {
             const weatherCard = document.createElement('div');
             weatherCard.classList.add('weather-card');
 
             const weatherCondition = period.shortForecast.toLowerCase();
             let weatherIcon = 'fas fa-sun'; // Default to sunny icon
+            let iconClass = ''; // Default no class
 
+            // Check for rain, chance of rain, and thunderstorms
             if (weatherCondition.includes('cloudy')) {
                 weatherIcon = 'fas fa-cloud';
-                isCloudy = true;
-            } else if (weatherCondition.includes('rain')) {
+                iconClass = 'cloudy-icon'; // Apply grey color for cloudy
+            } else if (weatherCondition.includes('rain') || weatherCondition.includes('chance of rain') || weatherCondition.includes('thunderstorm')) {
                 weatherIcon = 'fas fa-cloud-rain';
-                isRainy = true;
-            } else {
-                isSunny = true;
+                iconClass = 'rainy-icon'; // Apply grey color for rain
             }
 
-            // Assuming we have period.temperatureHigh and period.temperatureLow (if provided)
-            const averageTemp = period.temperature; // Modify this based on actual data
+            const averageTemp = period.temperature;
             weatherCard.innerHTML = `
                 <h2>${period.name}</h2>
-                <i class="${weatherIcon}"></i>
+                <i class="${weatherIcon} ${iconClass}"></i>
                 <div class="temperature-average">Average: ${averageTemp}°F</div>
                 <div class="details">${period.shortForecast}</div>
             `;
@@ -180,13 +201,27 @@ function displayWeather(forecastData) {
             weatherCardsContainer.appendChild(weatherCard);
         });
 
-        if (isRainy) {
-            document.body.className = 'rainy-background';
-        } else if (isCloudy) {
-            document.body.className = 'cloudy-background';
-        } else {
-            document.body.className = 'sunny-background';
+        // Ensure rain animation is removed if today's weather doesn't include rain
+        if (!isRainyToday) {
+            removeRainAnimation(); // Remove the rain animation
         }
+    }
+}
+
+// Add rain animation to the page
+function addRainAnimation() {
+    if (!document.querySelector('.rain')) { // Check if rain animation already exists
+        const rainDiv = document.createElement('div');
+        rainDiv.classList.add('rain');
+        document.body.appendChild(rainDiv);
+    }
+}
+
+// Remove the rain animation if it exists
+function removeRainAnimation() {
+    const rainDiv = document.querySelector('.rain');
+    if (rainDiv) {
+        rainDiv.remove();
     }
 }
 

@@ -14,6 +14,49 @@ body {
     color: white;
 }
 
+/* Sunny background */
+.sunny-background {
+    background: linear-gradient(135deg, #FFDD00 0%, #FFE53B 100%); /* Yellow sunny gradient */
+}
+
+/* Grey gradient for cloudy background */
+.cloudy-background {
+    background: linear-gradient(135deg, #bdc3c7 0%, #2c3e50 100%); /* Lighter grey gradient */
+}
+
+/* Greyish-blue gradient for rainy background */
+.rainy-background {
+    background: linear-gradient(135deg, #a5a5a5 0%, #6d6d6d 100%); /* Darker grey gradient for rain */
+}
+
+/* Icon colors for rainy or cloudy conditions */
+.weather-card i.cloudy-icon,
+.weather-card i.rainy-icon {
+    color: #7f8c8d; /* Grey color for cloudy and rainy icons */
+}
+
+/* Rain animation */
+.rain {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Ignore interaction with the rain */
+    background: url('https://www.transparenttextures.com/patterns/climpek.png') repeat;
+    opacity: 0.3;
+    animation: rain 0.5s linear infinite;
+}
+
+@keyframes rain {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 100px;
+    }
+}
+
 /* Center all elements inside the container */
 .container {
     display: flex;
@@ -109,7 +152,10 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     color: black;
     text-align: left;
-    .border:empty {display: none; }
+}
+
+.suggestions-dropdown:empty {
+  display: none;
 }
 
 .suggestions-dropdown li {
