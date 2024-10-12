@@ -4,42 +4,59 @@ body {
     padding: 0;
     font-family: 'Roboto', sans-serif;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     min-height: 100vh;
+    flex-direction: column;
     text-align: center;
     transition: background-color 1s ease-in-out;
     background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     color: white;
-    align-items: center; /* Center the body content */
-    justify-content: center;
+}
+
+/* Center all elements inside the container */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 50px; /* Ensure buttons and input have space */
+}
+
+/* Ensure input container and button container have proper spacing */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 30px; /* Added spacing */
+}
+
+/* Button container for proper centering */
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 10px; /* Added margin to separate from input */
 }
 
 /* Header */
 header {
-    padding: 20px 0;
-    font-size: 2.5em;
+    padding: 50px 0;
+    font-size: 3em;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
     width: 100%;
     text-align: center;
 }
 
-/* Container Styling */
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center the content horizontally */
-    justify-content: center;
-    width: 100%;
-    max-width: 800px; /* Adjust as needed */
-    padding: 20px;
-    text-align: center;
-    position: relative; /* Needed for positioning the dropdown */
-}
-
 /* Input field styling */
 #city-input {
     width: 100%;
-    max-width: 400px;
     padding: 15px;
     font-size: 1.5em;
     border: 1px solid #ddd;
@@ -51,13 +68,9 @@ header {
     transition: all 0.3s ease;
 }
 
-/* Button Container */
-.button-container {
-    display: flex;
-    gap: 10px;
-    margin: 20px 0;
-    justify-content: center; /* Center the buttons horizontally */
-    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+#city-input:focus {
+    border-color: #3498db;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Button Styles */
@@ -71,6 +84,8 @@ header {
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     font-weight: bold;
+    margin: 10px 0;
+    width: 100%; /* Ensure buttons are full-width inside container */
 }
 
 .btn:hover {
@@ -78,7 +93,7 @@ header {
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Suggestions Dropdown */
+/* Autocomplete Suggestions Dropdown */
 .suggestions-dropdown {
     list-style-type: none;
     margin: 0;
@@ -86,17 +101,14 @@ header {
     max-height: 150px;
     overflow-y: auto;
     width: 100%;
-    max-width: 400px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: white;
     position: absolute;
     z-index: 999;
-    margin-top: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     color: black;
-    left: 50%; /* Position relative to the container */
-    transform: translateX(-50%); /* Center the dropdown */
+    text-align: left;
 }
 
 .suggestions-dropdown li {
@@ -110,12 +122,13 @@ header {
 
 /* Weather Cards Container */
 .weather-cards-container {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr); /* 5 columns to fit all weather cards in one line */
+    display: flex;
+    justify-content: center; /* Center the cards */
     gap: 20px;
     width: 100%;
     max-width: 1200px;
     margin-top: 20px;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
 }
 
 .weather-card {
@@ -141,53 +154,17 @@ header {
 
 .weather-card i {
     font-size: 3em;
-    color: #f39c12; /* Sun color */
+    color: #f39c12;
     margin-bottom: 10px;
 }
 
-/* Loading Spinner */
-.loading {
-    width: 40px;
-    height: 40px;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    border-top: 4px solid #fff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Error Message */
-.error-message {
-    color: #ff4d4d;
-    font-size: 1.2em;
-    margin-top: 10px;
-}
-
-/* Responsive Adjustments */
 @media (max-width: 768px) {
     .weather-cards-container {
-        grid-template-columns: repeat(2, 1fr); /* Adjust for smaller screens */
+        flex-direction: column;
     }
 
     .btn {
         font-size: 1em;
         padding: 10px 15px;
-    }
-}
-
-@media (max-width: 500px) {
-    .button-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .btn {
-        width: 100%;
-        max-width: 300px;
     }
 }
