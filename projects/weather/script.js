@@ -1,3 +1,9 @@
+// Update the header with the city name
+function updateCityHeader(city) {
+    const cityHeader = document.getElementById('city-header');
+    cityHeader.textContent = `${city} Weather`; // Update header with the selected city name
+}
+
 // Nominatim API for city autocomplete (restricting to US)
 async function fetchCitySuggestions() {
     const query = document.getElementById('city-input').value;
@@ -42,7 +48,7 @@ function displayCitySuggestions(cities) {
     });
 }
 
-// Get weather data for the entered city
+// Get weather data for the entered city and update the header
 async function getWeather() {
     const city = document.getElementById('city-input').value;
     if (!city) {
@@ -56,8 +62,45 @@ async function getWeather() {
         const weatherData = await getWeatherData(coordinates.lat, coordinates.lon);
         hideLoading(); // Hide spinner when API call finishes
         displayWeather(weatherData);
+        updateCityHeader(city); // Update the city name in the header
     } else {
         hideLoading(); // Hide spinner in case of error
+    }
+}
+
+// Get current location and update header with the city name
+async function getCurrentLocation() {
+    if (navigator.geolocation) {
+        showLoading(); // Show spinner when fetching geolocation
+        navigator.geolocation.getCurrentPosition(async position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const weatherData = await getWeatherData(lat, lon);
+            hideLoading(); // Hide spinner after getting location and weather
+
+            // Fetch city name from coordinates (reverse geocoding) to update header
+            const cityName = await getCityNameFromCoordinates(lat, lon);
+            displayWeather(weatherData);
+            updateCityHeader(cityName); // Update the city name in the header
+        }, () => {
+            hideLoading();
+            showError('Unable to retrieve your location.');
+        });
+    } else {
+        showError('Geolocation is not supported by your browser.');
+    }
+}
+
+// Function to get city name from coordinates using Nominatim reverse geocoding
+async function getCityNameFromCoordinates(lat, lon) {
+    const reverseGeocodeUrl = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+    try {
+        const response = await fetch(reverseGeocodeUrl);
+        const data = await response.json();
+        return data.address.city || 'Your Location'; // Default if city is not found
+    } catch (error) {
+        console.error('Error fetching city name from coordinates:', error);
+        return 'Your Location';
     }
 }
 
@@ -163,23 +206,4 @@ function showLoading() {
 function hideLoading() {
     const spinner = document.getElementById('loading-spinner');
     spinner.style.display = 'none';
-}
-
-// Get current location and fetch weather for it
-async function getCurrentLocation() {
-    if (navigator.geolocation) {
-        showLoading(); // Show spinner when fetching geolocation
-        navigator.geolocation.getCurrentPosition(async position => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            const weatherData = await getWeatherData(lat, lon);
-            hideLoading(); // Hide spinner after getting location and weather
-            displayWeather(weatherData);
-        }, () => {
-            hideLoading();
-            showError('Unable to retrieve your location.');
-        });
-    } else {
-        showError('Geolocation is not supported by your browser.');
-    }
 }

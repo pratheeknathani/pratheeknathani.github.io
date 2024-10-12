@@ -14,16 +14,6 @@ body {
     color: white;
 }
 
-/* Remove default margin/padding from header */
-header {
-    padding: 50px 0;
-    font-size: 3em;
-    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-    width: 100%;
-    text-align: center;
-    border-bottom: none; /* Ensure no horizontal line */
-}
-
 /* Center all elements inside the container */
 .container {
     display: flex;
@@ -42,7 +32,6 @@ header {
     width: 100%;
     max-width: 400px;
     margin-bottom: 30px;
-    border-bottom: none; /* No border below the input container */
 }
 
 /* Button container for proper centering */
@@ -54,12 +43,20 @@ header {
     width: 100%;
     max-width: 400px;
     margin-top: 10px; /* Added margin to separate from input */
-    border-bottom: none; /* Ensure no horizontal line */
+}
+
+/* Header */
+header {
+    padding: 50px 0;
+    font-size: 3em;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    width: 100%;
+    text-align: center;
 }
 
 /* Input field styling */
 #city-input {
-    width: 100%;
+    width: 100%; /* Make the input field 100% of its parent container */
     padding: 15px;
     font-size: 1.5em;
     border: 1px solid #ddd;
@@ -69,7 +66,6 @@ header {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     outline: none;
     transition: all 0.3s ease;
-    border-bottom: none; /* Ensure no border under input */
 }
 
 #city-input:focus {
@@ -90,7 +86,6 @@ header {
     font-weight: bold;
     margin: 10px 0;
     width: 100%;
-    border-bottom: none; /* Ensure no border below the buttons */
 }
 
 .btn:hover {
@@ -100,13 +95,13 @@ header {
 
 /* Autocomplete Suggestions Dropdown */
 .suggestions-dropdown {
+    max-width: 400px;
+    margin-top: 50px;
     list-style-type: none;
-    margin: 0;
     padding: 0;
     max-height: 150px;
     overflow-y: auto;
     width: 100%;
-    border: 1px solid #ddd;
     border-radius: 5px;
     background-color: white;
     position: absolute;
@@ -114,6 +109,16 @@ header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     color: black;
     text-align: left;
+    .border:empty {display: none; }
+}
+
+.suggestions-dropdown li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestions-dropdown li:hover {
+    background-color: #f0f0f0;
 }
 
 /* Weather Cards Container */
