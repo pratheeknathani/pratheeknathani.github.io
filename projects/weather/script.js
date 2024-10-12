@@ -1,4 +1,4 @@
-// Nominatim API for city autocomplete (no API key required)
+// Nominatim API for city autocomplete (restricting to US)
 async function fetchCitySuggestions() {
     const query = document.getElementById('city-input').value;
 
@@ -8,8 +8,8 @@ async function fetchCitySuggestions() {
         return;
     }
 
-    // Fetch city suggestions from Nominatim API
-    const url = `https://nominatim.openstreetmap.org/search?city=${query}&format=json&limit=5`;
+    // Fetch city suggestions restricted to the United States
+    const url = `https://nominatim.openstreetmap.org/search?city=${query}&countrycodes=US&format=json&limit=5`;
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -19,7 +19,7 @@ async function fetchCitySuggestions() {
     }
 }
 
-// Display city suggestions in dropdown
+// Display city suggestions in dropdown (only city name is passed)
 function displayCitySuggestions(cities) {
     const suggestionsDropdown = document.getElementById('city-suggestions');
     suggestionsDropdown.innerHTML = ''; // Clear previous suggestions
@@ -30,10 +30,11 @@ function displayCitySuggestions(cities) {
     }
 
     cities.forEach(city => {
+        const cityName = city.display_name.split(",")[0]; // Extract only the city name
         const suggestionItem = document.createElement('li');
-        suggestionItem.textContent = `${city.display_name}`;
+        suggestionItem.textContent = cityName;
         suggestionItem.onclick = () => {
-            document.getElementById('city-input').value = city.display_name;
+            document.getElementById('city-input').value = cityName;
             suggestionsDropdown.innerHTML = ''; // Clear suggestions after selection
         };
         suggestionsDropdown.appendChild(suggestionItem);
@@ -59,9 +60,9 @@ async function getWeather() {
     }
 }
 
-// Get coordinates from Nominatim for a given city
+// Get coordinates from Nominatim for a given city (restricting to US)
 async function getCoordinates(city) {
-    const geocodeUrl = `https://nominatim.openstreetmap.org/search?city=${city}&format=json&limit=1`;
+    const geocodeUrl = `https://nominatim.openstreetmap.org/search?city=${city}&countrycodes=US&format=json&limit=1`;
     try {
         const response = await fetch(geocodeUrl);
         const data = await response.json();
