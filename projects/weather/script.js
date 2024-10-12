@@ -10,6 +10,7 @@ async function getCoordinates(city) {
             const lon = data[0].lon;
             return { lat, lon };
         } else {
+            showError('City not found, please try another one.');
             throw new Error(`City '${city}' not found.`);
         }
     } catch (error) {
@@ -36,60 +37,98 @@ async function getWeatherData(lat, lon) {
 async function getWeather() {
     const city = document.getElementById('city-input').value;
     if (!city) {
-        alert('Please enter a city name.');
+        showError('Please enter a city name.');
         return;
     }
 
+    showLoading();
     const coordinates = await getCoordinates(city);
     if (coordinates) {
         const weatherData = await getWeatherData(coordinates.lat, coordinates.lon);
+        hideLoading();
         displayWeather(weatherData);
+    } else {
+        hideLoading();
     }
 }
 
 function displayWeather(forecastData) {
     if (forecastData) {
-        const periods = forecastData.properties.periods.slice(0, 5); // Get the first 5 periods (5-day forecast)
+        const periods = forecastData.properties.periods.slice(0, 5); // Get the first 5 periods
         const weatherCardsContainer = document.querySelector('.weather-cards-container');
         weatherCardsContainer.innerHTML = ''; // Clear any previous content
 
-        let isRainy = false; // Track if any day includes rain
+        let isRainy = false;
+        let isCloudy = false;
+        let isSunny = false;
 
         periods.forEach(period => {
             const weatherCard = document.createElement('div');
             weatherCard.classList.add('weather-card');
 
             const weatherCondition = period.shortForecast.toLowerCase();
-            console.log(`Detected weather condition: ${weatherCondition}`); // Debugging log
-
             let weatherIcon = 'fas fa-sun'; // Default to sunny icon
 
             if (weatherCondition.includes('cloudy')) {
                 weatherIcon = 'fas fa-cloud';
+                isCloudy = true;
             } else if (weatherCondition.includes('rain')) {
                 weatherIcon = 'fas fa-cloud-rain';
-                isRainy = true; // Set the flag if rain is detected
+                isRainy = true;
+            } else {
+                isSunny = true;
             }
 
             weatherCard.innerHTML = `
                 <h2>${period.name}</h2>
                 <i class="${weatherIcon}"></i>
-                <div class="temperature">${period.temperature}°F</div>
+                <div class="temperature-high">High: ${period.temperature}°F</div>
+                <div class="temperature-low">Low: ${period.temperature}°F</div>
                 <div class="details">${period.shortForecast}</div>
             `;
 
             weatherCardsContainer.appendChild(weatherCard);
         });
 
-        // Debugging logs to check if background class is applied
         if (isRainy) {
-            console.log("Rain detected, applying rainy background");
-            document.body.classList.add('rainy-background');
+            document.body.className = 'rainy-background';
+        } else if (isCloudy) {
+            document.body.className = 'cloudy-background';
         } else {
-            console.log("No rain detected, applying default background");
-            document.body.classList.remove('rainy-background');
+            document.body.className = 'sunny-background';
         }
+    }
+}
+
+function showError(message) {
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = message;
+}
+
+function showLoading() {
+    const spinner = document.getElementById('loading-spinner');
+    spinner.style.display = 'block';
+}
+
+function hideLoading() {
+    const spinner = document.getElementById('loading-spinner');
+    spinner.style.display = 'none';
+}
+
+async function getCurrentLocation() {
+    if (navigator.geolocation) {
+        showLoading();
+        navigator.geolocation.getCurrentPosition(async position => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const weatherData = await getWeatherData(lat, lon);
+            hideLoading();
+            displayWeather(weatherData);
+        }, () => {
+            hideLoading();
+            showError('Unable to retrieve your location.');
+        });
     } else {
-        console.log('No weather data available');
+        showError('Geolocation is not supported by your browser.');
     }
 }
