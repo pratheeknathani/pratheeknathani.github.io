@@ -9,7 +9,7 @@ async function fetchCitySuggestions() {
     }
 
     // Fetch city suggestions restricted to the United States
-    const url = `https://nominatim.openstreetmap.org/search?city=${query}&countrycodes=US&format=json&limit=5`;
+    const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(query)}&countrycodes=US&format=json&limit=5&addressdetails=1`;
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -19,7 +19,7 @@ async function fetchCitySuggestions() {
     }
 }
 
-// Display city suggestions in dropdown (only city name is passed)
+// Display city suggestions in dropdown (show full address)
 function displayCitySuggestions(cities) {
     const suggestionsDropdown = document.getElementById('city-suggestions');
     suggestionsDropdown.innerHTML = ''; // Clear previous suggestions
@@ -30,11 +30,13 @@ function displayCitySuggestions(cities) {
     }
 
     cities.forEach(city => {
-        const cityName = city.display_name.split(",")[0]; // Extract only the city name
+        const fullAddress = city.display_name; // Full address (city, state, country)
+        const cityName = city.address.city || city.address.town || city.address.village || city.address.hamlet || city.display_name.split(",")[0];
+
         const suggestionItem = document.createElement('li');
-        suggestionItem.textContent = cityName;
+        suggestionItem.textContent = fullAddress;
         suggestionItem.onclick = () => {
-            document.getElementById('city-input').value = cityName;
+            document.getElementById('city-input').value = cityName; // Use only the city name
             suggestionsDropdown.innerHTML = ''; // Clear suggestions after selection
         };
         suggestionsDropdown.appendChild(suggestionItem);
@@ -62,7 +64,7 @@ async function getWeather() {
 
 // Get coordinates from Nominatim for a given city (restricting to US)
 async function getCoordinates(city) {
-    const geocodeUrl = `https://nominatim.openstreetmap.org/search?city=${city}&countrycodes=US&format=json&limit=1`;
+    const geocodeUrl = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(city)}&countrycodes=US&format=json&limit=1`;
     try {
         const response = await fetch(geocodeUrl);
         const data = await response.json();
@@ -76,6 +78,7 @@ async function getCoordinates(city) {
         }
     } catch (error) {
         console.error('Error fetching coordinates:', error);
+        showError('Error fetching coordinates.');
         return null;
     }
 }
@@ -92,6 +95,7 @@ async function getWeatherData(lat, lon) {
         return forecastData;
     } catch (error) {
         console.error('Error fetching weather data:', error);
+        showError('Error fetching weather data.');
         return null;
     }
 }
@@ -117,14 +121,14 @@ function displayWeather(forecastData) {
             if (weatherCondition.includes('cloudy')) {
                 weatherIcon = 'fas fa-cloud';
                 isCloudy = true;
-            } else if (weatherCondition.includes('rain')) {
+            } else if (weatherCondition.includes('rain') || weatherCondition.includes('showers')) {
                 weatherIcon = 'fas fa-cloud-rain';
                 isRainy = true;
             } else {
                 isSunny = true;
             }
 
-            // Calculate average temperature if possible (e.g., using high and low temperatures if available)
+            // Use temperature as average temperature
             const averageTemp = period.temperature;
 
             weatherCard.innerHTML = `
@@ -145,6 +149,8 @@ function displayWeather(forecastData) {
         } else {
             document.body.className = 'sunny-background';
         }
+    } else {
+        showError('No weather data available.');
     }
 }
 

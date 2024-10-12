@@ -4,22 +4,36 @@ body {
     padding: 0;
     font-family: 'Roboto', sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     flex-direction: column;
+    min-height: 100vh;
     text-align: center;
     transition: background-color 1s ease-in-out;
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); /* New background gradient */
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     color: white;
+    align-items: center; /* Center the body content */
+    justify-content: center;
 }
 
 /* Header */
 header {
-    padding: 50px 0;
-    font-size: 3em;
+    padding: 20px 0;
+    font-size: 2.5em;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
     width: 100%;
+    text-align: center;
+}
+
+/* Container Styling */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content horizontally */
+    justify-content: center;
+    width: 100%;
+    max-width: 800px; /* Adjust as needed */
+    padding: 20px;
+    text-align: center;
+    position: relative; /* Needed for positioning the dropdown */
 }
 
 /* Input field styling */
@@ -27,7 +41,7 @@ header {
     width: 100%;
     max-width: 400px;
     padding: 15px;
-    font-size: 1.5em; /* Larger font */
+    font-size: 1.5em;
     border: 1px solid #ddd;
     border-radius: 10px;
     margin-bottom: 15px;
@@ -37,18 +51,16 @@ header {
     transition: all 0.3s ease;
 }
 
-#city-input:focus {
-    border-color: #3498db;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Button Styles */
+/* Button Container */
 .button-container {
     display: flex;
     gap: 10px;
     margin: 20px 0;
+    justify-content: center; /* Center the buttons horizontally */
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
 }
 
+/* Button Styles */
 .btn {
     background-color: #3498db;
     color: white;
@@ -83,6 +95,8 @@ header {
     margin-top: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     color: black;
+    left: 50%; /* Position relative to the container */
+    transform: translateX(-50%); /* Center the dropdown */
 }
 
 .suggestions-dropdown li {
@@ -131,6 +145,30 @@ header {
     margin-bottom: 10px;
 }
 
+/* Loading Spinner */
+.loading {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error Message */
+.error-message {
+    color: #ff4d4d;
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .weather-cards-container {
         grid-template-columns: repeat(2, 1fr); /* Adjust for smaller screens */
@@ -139,5 +177,17 @@ header {
     .btn {
         font-size: 1em;
         padding: 10px 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn {
+        width: 100%;
+        max-width: 300px;
     }
 }
