@@ -9,7 +9,7 @@ async function fetchCitySuggestions() {
     }
 
     // Fetch city suggestions restricted to the United States
-    const url = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(query)}&countrycodes=US&format=json&limit=5&addressdetails=1`;
+    const url = `https://nominatim.openstreetmap.org/search?city=${query}&countrycodes=US&format=json&limit=5`;
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -19,7 +19,7 @@ async function fetchCitySuggestions() {
     }
 }
 
-// Display city suggestions in dropdown (show full address)
+// Display city, state, and country in dropdown (pass only city to API)
 function displayCitySuggestions(cities) {
     const suggestionsDropdown = document.getElementById('city-suggestions');
     suggestionsDropdown.innerHTML = ''; // Clear previous suggestions
@@ -30,13 +30,12 @@ function displayCitySuggestions(cities) {
     }
 
     cities.forEach(city => {
-        const fullAddress = city.display_name; // Full address (city, state, country)
-        const cityName = city.address.city || city.address.town || city.address.village || city.address.hamlet || city.display_name.split(",")[0];
-
+        const cityName = city.display_name.split(",")[0]; // Extract only city name for API
+        const fullLocation = city.display_name; // Display full location in the dropdown
         const suggestionItem = document.createElement('li');
-        suggestionItem.textContent = fullAddress;
+        suggestionItem.textContent = fullLocation;
         suggestionItem.onclick = () => {
-            document.getElementById('city-input').value = cityName; // Use only the city name
+            document.getElementById('city-input').value = cityName; // Pass only city name to input
             suggestionsDropdown.innerHTML = ''; // Clear suggestions after selection
         };
         suggestionsDropdown.appendChild(suggestionItem);
@@ -51,20 +50,20 @@ async function getWeather() {
         return;
     }
 
-    showLoading();
+    showLoading(); // Show spinner when API call starts
     const coordinates = await getCoordinates(city);
     if (coordinates) {
         const weatherData = await getWeatherData(coordinates.lat, coordinates.lon);
-        hideLoading();
+        hideLoading(); // Hide spinner when API call finishes
         displayWeather(weatherData);
     } else {
-        hideLoading();
+        hideLoading(); // Hide spinner in case of error
     }
 }
 
 // Get coordinates from Nominatim for a given city (restricting to US)
 async function getCoordinates(city) {
-    const geocodeUrl = `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(city)}&countrycodes=US&format=json&limit=1`;
+    const geocodeUrl = `https://nominatim.openstreetmap.org/search?city=${city}&countrycodes=US&format=json&limit=1`;
     try {
         const response = await fetch(geocodeUrl);
         const data = await response.json();
@@ -78,7 +77,6 @@ async function getCoordinates(city) {
         }
     } catch (error) {
         console.error('Error fetching coordinates:', error);
-        showError('Error fetching coordinates.');
         return null;
     }
 }
@@ -95,7 +93,6 @@ async function getWeatherData(lat, lon) {
         return forecastData;
     } catch (error) {
         console.error('Error fetching weather data:', error);
-        showError('Error fetching weather data.');
         return null;
     }
 }
@@ -121,16 +118,15 @@ function displayWeather(forecastData) {
             if (weatherCondition.includes('cloudy')) {
                 weatherIcon = 'fas fa-cloud';
                 isCloudy = true;
-            } else if (weatherCondition.includes('rain') || weatherCondition.includes('showers')) {
+            } else if (weatherCondition.includes('rain')) {
                 weatherIcon = 'fas fa-cloud-rain';
                 isRainy = true;
             } else {
                 isSunny = true;
             }
 
-            // Use temperature as average temperature
-            const averageTemp = period.temperature;
-
+            // Assuming we have period.temperatureHigh and period.temperatureLow (if provided)
+            const averageTemp = period.temperature; // Modify this based on actual data
             weatherCard.innerHTML = `
                 <h2>${period.name}</h2>
                 <i class="${weatherIcon}"></i>
@@ -141,7 +137,6 @@ function displayWeather(forecastData) {
             weatherCardsContainer.appendChild(weatherCard);
         });
 
-        // Change background based on weather condition
         if (isRainy) {
             document.body.className = 'rainy-background';
         } else if (isCloudy) {
@@ -149,8 +144,6 @@ function displayWeather(forecastData) {
         } else {
             document.body.className = 'sunny-background';
         }
-    } else {
-        showError('No weather data available.');
     }
 }
 
@@ -175,12 +168,12 @@ function hideLoading() {
 // Get current location and fetch weather for it
 async function getCurrentLocation() {
     if (navigator.geolocation) {
-        showLoading();
+        showLoading(); // Show spinner when fetching geolocation
         navigator.geolocation.getCurrentPosition(async position => {
             const lat = position.coords.latitude;
             const lon = position.coords.longitude;
             const weatherData = await getWeatherData(lat, lon);
-            hideLoading();
+            hideLoading(); // Hide spinner after getting location and weather
             displayWeather(weatherData);
         }, () => {
             hideLoading();
