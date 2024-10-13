@@ -1,4 +1,3 @@
-/* Global Styles */
 body {
     margin: 0;
     padding: 0;
@@ -233,5 +232,79 @@ header {
     }
     100% {
         transform: rotate(360deg);
+    }
+}
+/* Container adjustments */
+.container {
+    position: relative; /* Ensures child elements can use z-index */
+    width: 100%;
+    height: 500px; /* Increased height to fit larger cloud */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Vertically center the cloud */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 20px;
+    border-bottom: none;
+}
+
+/* Cloud: Much bigger and positioned behind */
+.container .cloud {
+    position: absolute;
+    top: -120%; /* Adjusted position for cloud */
+    left: 50%; /* Keep horizontally centered */
+    transform: translate(-50%, -50%);
+    width: 1200px; /* Much wider cloud */
+    height: 300px; /* Adjust height if needed */
+    background: #fff;
+    border-radius: 150px;
+    filter: drop-shadow(10px 10px 0 #0005);
+    z-index: -2; /* Behind other elements */
+}
+
+/* Adjust cloud extensions */
+.container .cloud::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 150px; /* Shifted left to extend the cloud appearance */
+    width: 400px; /* Wider extension */
+    height: 300px;
+    border-radius: 50%;
+    background: #484f59;
+    box-shadow: 250px -20px 0 50px #484f59;
+}
+
+.container .cloud::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: #484f59;
+    border-radius: 150px;
+}
+
+/* Raindrop animation */
+.container .cloud .drop {
+    position: absolute;
+    top: 70px;
+    background: #05a2eb;
+    width: 2px;
+    height: 2px;
+    transform-origin: bottom;
+    animation: animate 2s linear infinite;
+}
+
+/* Updated raindrop keyframes to cover the wider cloud */
+@keyframes animate {
+    0% {
+        transform: translateY(0) scaleY(1);
+    }
+    70% {
+        transform: translateY(750px) scaleY(1);
+    }
+    80% {
+        transform: translateY(750px) scaleY(0.2);
+    }
+    100% {
+        transform: translateY(750px) scaleY(0) scaleX(15);
     }
 }

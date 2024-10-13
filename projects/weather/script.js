@@ -140,7 +140,6 @@ async function getWeatherData(lat, lon) {
     }
 }
 
-// Display weather data for the next 5 days
 function displayWeather(forecastData) {
     if (forecastData) {
         const periods = forecastData.properties.periods.slice(0, 5); // Get the first 5 periods
@@ -148,29 +147,20 @@ function displayWeather(forecastData) {
         weatherCardsContainer.innerHTML = ''; // Clear any previous content
 
         let isRainyToday = false;
-        let isCloudyToday = false;
-        let isSunnyToday = false;
 
-        // Set the background and icons based on today's weather
-        const todayWeatherCondition = periods[0].shortForecast.toLowerCase(); // Get today's weather
-        let todayIconClass = ''; // Default no class
+        // Get today's weather
+        const todayWeatherCondition = periods[0].shortForecast.toLowerCase(); 
 
-        // Check for rain, chance of rain, and thunderstorms for today's condition only
-        if (todayWeatherCondition.includes('cloudy')) {
-            todayIconClass = 'cloudy-background'; // Cloudy background
-            isCloudyToday = true;
-        } else if (todayWeatherCondition.includes('rain') || todayWeatherCondition.includes('chance of rain') || todayWeatherCondition.includes('thunderstorm')) {
-            todayIconClass = 'rainy-background'; // Rainy background
+        // Check if today's weather is rainy
+        if (todayWeatherCondition.includes('rain') || todayWeatherCondition.includes('chance of rain') || todayWeatherCondition.includes('thunderstorm')) {
             isRainyToday = true;
-            addRainAnimation(); // Add rain animation only if today has rain
+            document.body.classList.add('rainy-background'); // Add the gray gradient background
+            document.getElementById('rain-container').style.display = 'block'; // Show cloud and rain animation
+            startRainAnimation(); // Start the rain animation
         } else {
-            todayIconClass = 'sunny-background'; // Sunny background
-            isSunnyToday = true;
-            removeRainAnimation(); // Remove rain animation if it's sunny or cloudy
+            document.body.classList.remove('rainy-background'); // Remove the gray background if not raining
+            document.getElementById('rain-container').style.display = 'none'; // Hide cloud and rain animation
         }
-
-        // Apply today's background to the body
-        document.body.className = todayIconClass;
 
         // Now populate weather for all periods (including today)
         periods.forEach(period => {
@@ -179,50 +169,53 @@ function displayWeather(forecastData) {
 
             const weatherCondition = period.shortForecast.toLowerCase();
             let weatherIcon = 'fas fa-sun'; // Default to sunny icon
-            let iconClass = ''; // Default no class
 
             // Check for rain, chance of rain, and thunderstorms
             if (weatherCondition.includes('cloudy')) {
                 weatherIcon = 'fas fa-cloud';
-                iconClass = 'cloudy-icon'; // Apply grey color for cloudy
             } else if (weatherCondition.includes('rain') || weatherCondition.includes('chance of rain') || weatherCondition.includes('thunderstorm')) {
                 weatherIcon = 'fas fa-cloud-rain';
-                iconClass = 'rainy-icon'; // Apply grey color for rain
             }
 
             const averageTemp = period.temperature;
             weatherCard.innerHTML = `
                 <h2>${period.name}</h2>
-                <i class="${weatherIcon} ${iconClass}"></i>
+                <i class="${weatherIcon}"></i>
                 <div class="temperature-average">Average: ${averageTemp}°F</div>
                 <div class="details">${period.shortForecast}</div>
             `;
 
             weatherCardsContainer.appendChild(weatherCard);
         });
-
-        // Ensure rain animation is removed if today's weather doesn't include rain
-        if (!isRainyToday) {
-            removeRainAnimation(); // Remove the rain animation
-        }
     }
 }
 
-// Add rain animation to the page
-function addRainAnimation() {
-    if (!document.querySelector('.rain')) { // Check if rain animation already exists
-        const rainDiv = document.createElement('div');
-        rainDiv.classList.add('rain');
-        document.body.appendChild(rainDiv);
-    }
-}
 
-// Remove the rain animation if it exists
-function removeRainAnimation() {
-    const rainDiv = document.querySelector('.rain');
-    if (rainDiv) {
-        rainDiv.remove();
+// Start the rain animation
+function startRainAnimation() {
+    function rain(){
+        let cloud = document.querySelector('.cloud');
+        let e = document.createElement('div');
+        let left = Math.floor(Math.random() * 1200); /* Adjusted to cover the full 1200px width */
+        let width = Math.random() * 5;
+        let height = Math.random() * 50;
+        let duration = Math.random() * 0.5;
+
+        e.classList.add('drop');
+        cloud.appendChild(e);
+        e.style.left = left + 'px'; /* Place the raindrop across the full width of the cloud */
+        e.style.width = 0.5 + width + 'px';
+        e.style.height = 0.5 + height + 'px';
+        e.style.animationDuration = 1 + duration + 's';
+
+        setTimeout(function(){
+            cloud.removeChild(e);
+        }, 2000);
     }
+
+    setInterval(function(){
+        rain();
+    }, 20);
 }
 
 // Show an error message
