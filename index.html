@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pratheek Nathani</title>
+<meta name="description" content="Pratheek Nathani — CS & Math at the University of Florida. Software engineering, ML evaluation, and quantitative systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbfbf9;
+    --fg: #1a1a1a;
+    --muted: #666;
+    --line: #e6e4df;
+    --accent: #2f5bd3;
+    --tag-bg: #f0efea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111214;
+      --fg: #e9e9e6;
+      --muted: #9a9a96;
+      --line: #26282c;
+      --accent: #7ea2ff;
+      --tag-bg: #1c1e22;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font: 16px/1.6 Inter, system-ui, -apple-system, sans-serif;
+    padding: 72px 24px 96px;
+  }
+  main { max-width: 720px; margin: 0 auto; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  header h1 { font-size: 2rem; font-weight: 600; letter-spacing: -0.02em; }
+  header .sub { color: var(--muted); margin-top: 4px; }
+  header p.intro { margin-top: 20px; max-width: 620px; }
+  .links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 20px; font-size: 0.95rem; }
+
+  section { margin-top: 64px; }
+  h2 {
+    font: 500 0.78rem/1 "JetBrains Mono", ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 8px;
+  }
+
+  .item { padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .item:last-child { border-bottom: none; }
+  .item-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .item h3 { font-size: 1.05rem; font-weight: 600; }
+  .item .meta { color: var(--muted); font-size: 0.9rem; white-space: nowrap; }
+  .item .role { color: var(--muted); font-size: 0.95rem; margin-top: 2px; }
+  .item ul { margin-top: 10px; padding-left: 18px; }
+  .item li { margin-top: 6px; }
+  .item li::marker { color: var(--muted); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .tags span {
+    font: 400 0.75rem/1 "JetBrains Mono", ui-monospace, monospace;
+    background: var(--tag-bg);
+    color: var(--muted);
+    padding: 6px 8px;
+    border-radius: 4px;
+  }
+
+  .compact .item { padding: 14px 0; }
+  .compact .item h3 { font-size: 1rem; font-weight: 500; }
+
+  .skill { display: grid; grid-template-columns: 130px 1fr; gap: 16px; }
+  .skill .label { color: var(--muted); font-size: 0.9rem; }
+  @media (max-width: 560px) { .skill { grid-template-columns: 1fr; gap: 2px; } }
+
+  footer { margin-top: 72px; color: var(--muted); font-size: 0.85rem; }
+
+  @media (max-width: 560px) {
+    body { padding-top: 48px; }
+    .item .meta { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <header>
+    <h1>Pratheek Nathani</h1>
+    <div class="sub">Computer Science &amp; Mathematics · University of Florida · May 2028 · 4.0 GPA</div>
+    <p class="intro">
+      I build reliable systems and the tools that measure them, from evaluation pipelines for
+      AI agents to trading infrastructure. Most recently I was a Software Engineering Intern on Azure Core
+      Compute's Confidential Computing team at Microsoft.
+    </p>
+    <div class="links">
+      <a href="mailto:nathanipratheek@gmail.com">Email</a>
+      <a href="https://github.com/pratheeknathani">GitHub</a>
+      <a href="https://www.linkedin.com/in/pratheek-nathani">LinkedIn</a>
+      <a href="resume.pdf">Resume</a>
+    </div>
+  </header>
+
+  <section class="compact">
+    <h2>Awards</h2>
+    <div class="item"><h3>7× AIME Qualifier</h3></div>
+    <div class="item"><h3>USAMO Index 221</h3></div>
+    <div class="item"><h3>AMC 12 Distinguished Honor Roll</h3></div>
+    <div class="item"><h3>Coca-Cola Scholar Semifinalist</h3></div>
+    <div class="item"><h3>USABO Semifinalist</h3></div>
+    <div class="item"><h3>USACO Silver</h3></div>
+  </section>
+
+  <section>
+    <h2>Experience</h2>
+
+    <div class="item">
+      <div class="item-head">
+        <h3>Microsoft</h3>
+        <span class="meta">May – Aug 2026</span>
+      </div>
+      <div class="role">Software Engineering Intern · Azure Core Compute, Confidential Computing · Redmond, WA</div>
+      <ul>
+        <li>Extended hardware root-of-trust verification to next-generation confidential computing silicon, implementing attestation flows and firmware validation for pre-release hardware.</li>
+        <li>Built an AI agent with an MCP server that automates root-cause analysis of Azure Confidential VM SLA misses, mapping errors to root causes and handling cross-team escalation. It cut on-call triage time by 45% across 12 engineers.</li>
+        <li>Trained the agent's classification models on failure telemetry to attribute host failures to specific firmware build regressions at 98% recall, replacing multi-day manual log investigation.</li>
+      </ul>
+      <div class="tags"><span>Confidential computing</span><span>MCP</span><span>AI agents</span><span>Classification</span></div>
+    </div>
+
+    <div class="item">
+      <div class="item-head">
+        <h3>Modernizing Medicine</h3>
+        <span class="meta">May 2025 – May 2026</span>
+      </div>
+      <div class="role">Software Engineering Intern · Boca Raton, FL</div>
+      <ul>
+        <li>Developed an agentic AI scheduling system (Python, LangChain, FastAPI) that autonomously processes 1M+ daily patient messages via EHR APIs on a 70M-user platform.</li>
+        <li>Architected containerized FastAPI microservices sustaining 700 req/min, with OAuth2, async processing, and feature-flagged ML rollouts for zero-downtime deploys.</li>
+        <li>Shipped a patient-facing voice agent (ElevenLabs, Twilio) with an MCP layer of 15 tools wrapping 50+ endpoints, reducing manual call volume by 21%.</li>
+        <li>Built 10+ automated CircleCI test suites at 92% coverage to keep erroneous agent responses out of production.</li>
+      </ul>
+      <div class="tags"><span>LangChain</span><span>FastAPI</span><span>Docker</span><span>CircleCI</span></div>
+    </div>
+
+    <div class="item">
+      <div class="item-head">
+        <h3>Endgrate</h3>
+        <span class="meta">May – Aug 2024</span>
+      </div>
+      <div class="role">Software Engineering Intern · Cambridge, MA</div>
+      <ul>
+        <li>Engineered 500+ real-time API integrations across CRM, ERP, and helpdesk platforms behind a single unified API, reducing customer integration time by ~20%.</li>
+        <li>Built async data-fetching and normalization pipelines that keep data in sync across 100+ third-party services.</li>
+      </ul>
+      <div class="tags"><span>Python</span><span>APIs</span><span>Data pipelines</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Projects</h2>
+
+    <div class="item">
+      <div class="item-head">
+        <h3>Agent Evaluation &amp; Data Generation</h3>
+        <span class="meta">Microsoft Research collaboration · 2026</span>
+      </div>
+      <ul>
+        <li>Joined a Microsoft Research team's agent-evaluation effort, with the manager's approval, while my own team's project was still being scoped.</li>
+        <li>Helped develop a Bayesian active-learning method that uses disagreements between an LLM judge and human reviewers to decide which examples go to human labeling. The team later filed a U.S. patent application on the method.</li>
+        <li>Built and calibrated an LLM judge to track agent quality across releases, with a four-part rubric that requires agents to pass every criterion so a strong score in one area can't hide a failure in another.</li>
+        <li>Assessed data quality using samples from external providers, chose which datasets to acquire, and built the pipelines to ingest them.</li>
+      </ul>
+      <div class="tags"><span>Bayesian inference</span><span>LLM-as-judge</span><span>Active learning</span><span>Data pipelines</span></div>
+    </div>
+
+    <div class="item">
+      <div class="item-head">
+        <h3>AlgoGators Quant Infrastructure</h3>
+        <span class="meta">Senior Quant Developer · 2024 – Present</span>
+      </div>
+      <ul>
+        <li>Refactored critical trading systems from Python to C++ for 3×+ faster market-data processing and database latency.</li>
+        <li>Built CVaR, Fama-French factor, and Information Ratio risk models that feed the execution system and drive live trading on a $500k portfolio.</li>
+        <li>Developed a futures position-sizing model that adapts to real-time market risk, cutting average slippage by 10–15% in live trading and backtests.</li>
+        <li>Developed AlgoLens, an investor-facing dashboard for UF's student-run quantitative fund. All of our infrastructure is open source (GPL v3).</li>
+      </ul>
+      <div class="tags"><span>C++</span><span>Python</span><span>Risk modeling</span><span>Futures</span></div>
+    </div>
+
+    <div class="item">
+      <div class="item-head">
+        <h3>CL–GC Spread Volatility Forecasting</h3>
+        <span class="meta">ML</span>
+      </div>
+      <ul>
+        <li>Forecast volatility of the crude oil–gold futures spread, benchmarking gradient-boosted trees (XGBoost) against traditional volatility models.</li>
+        <!-- TODO: add a bullet with feature set, eval setup, and headline result (e.g., "X% lower out-of-sample error than baseline") -->
+      </ul>
+      <div class="tags"><span>XGBoost</span><span>Time series</span><span>Python</span></div>
+    </div>
+
+    <div class="item">
+      <div class="item-head">
+        <h3>Chaos Engineering Platform</h3>
+      </div>
+      <ul>
+        <li>Built a platform in Go and Python that injects faults (pod kill, network partition, CPU stress) into AWS/Kubernetes clusters, with a real-time dashboard tracking error rates and latency across 12 failure scenarios.</li>
+        <li>Implemented a blast-radius governor that enforces per-experiment resource limits and triggers automatic rollbacks when SLO thresholds are breached, reducing mean recovery time by 60% compared with manual intervention in simulated outages.</li>
+      </ul>
+      <div class="tags"><span>Go</span><span>Python</span><span>Kubernetes</span><span>Prometheus</span></div>
+    </div>
+  </section>
+
+  <section class="compact">
+    <h2>Skills</h2>
+    <div class="item skill"><span class="label">Languages</span><span>Python, C++, Go, Rust, Java, C, TypeScript, JavaScript, SQL</span></div>
+    <div class="item skill"><span class="label">ML &amp; AI</span><span>PyTorch, XGBoost, NumPy, Pandas, SciPy, LangChain, LangGraph, MCP, RAG, LLM evaluation, MLflow</span></div>
+    <div class="item skill"><span class="label">Backend</span><span>FastAPI, Pydantic, OAuth2, async services, REST API design, FHIR</span></div>
+    <div class="item skill"><span class="label">Infrastructure</span><span>AWS, Docker, Kubernetes, Prometheus, CircleCI, Jenkins, Git, feature flags</span></div>
+    <div class="item skill"><span class="label">Quant</span><span>Risk modeling (CVaR, factor models), position sizing, time-series forecasting, backtesting</span></div>
+  </section>
+
+  <footer>© 2026 Pratheek Nathani</footer>
+
+</main>
+</body>
+</html>
